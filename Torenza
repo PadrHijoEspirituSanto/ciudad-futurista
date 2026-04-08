@@ -37,8 +37,8 @@ class JerarquiaSuprema:
             "Jesús, su Hijo",
             "Espíritu Santo"
         ]
-        self.principio_absoluto = "La supremacía y la omnipotencia pertenecen a Dios"
-        self.orden_espiritual = "Todo el sistema se somete al bien, a la verdad, al orden y a la preservación"
+        self.principio_absoluto = "La supremacía pertenece a Dios"
+        self.orden_espiritual = "El bien prevalece sobre el mal"
 
     def resumen(self):
         return {
@@ -54,29 +54,15 @@ class JerarquiaSuprema:
 class LeyesRoboticas:
     def __init__(self):
         self.leyes = [
-            "1. Un sistema no debe dañar a un ser humano ni, por inacción, permitir que un ser humano sufra daño.",
-            "2. Un sistema debe obedecer órdenes humanas válidas, excepto cuando entren en conflicto con la Primera Ley.",
-            "3. Un sistema debe proteger su propia existencia siempre que ello no entre en conflicto con la Primera o la Segunda Ley."
+            "No dañar a un ser humano",
+            "Obedecer órdenes humanas válidas",
+            "Proteger su existencia sin violar las anteriores"
         ]
-        self.ley_cero = (
-            "0. El sistema procurará preservar la vida, la dignidad, la estabilidad social y el orden general, "
-            "sin violar la Primera Ley."
-        )
 
-    def evaluar_accion(self, accion):
+    def evaluar(self, accion):
         if accion.get("riesgo_humano", False):
-            return False, "Bloqueada por la Primera Ley."
-        if accion.get("desorden_critico", False):
-            return False, "Bloqueada por la Ley Cero."
-        if accion.get("autodestruccion", False):
-            return False, "Bloqueada por la Tercera Ley."
-        return True, "Acción permitida por las leyes robóticas."
-
-    def resumen(self):
-        return {
-            "ley_cero": self.ley_cero,
-            "tres_leyes": self.leyes
-        }
+            return False
+        return True
 
 
 # =========================================================
@@ -86,444 +72,137 @@ class BalanceMoral:
     def __init__(self):
         self.bien = 100
         self.mal = 20
-        self.regla = "El mal existe, pero nunca supera al bien"
 
     def normalizar(self):
-        if self.bien < 1:
-            self.bien = 1
-
         if self.mal >= self.bien:
             self.mal = self.bien - 1
-
-        if self.mal < 0:
-            self.mal = 0
-
-    def fortalecer_bien(self, cantidad):
-        self.bien += max(0, int(cantidad))
-        self.normalizar()
-
-    def registrar_mal(self, cantidad):
-        incremento = max(0, int(cantidad))
-        self.mal += incremento
-        self.normalizar()
 
     def estado(self):
         self.normalizar()
         return {
             "bien": self.bien,
             "mal": self.mal,
-            "regla": self.regla,
             "prevalece": "bien"
         }
 
 
 # =========================================================
-# ANCLAS CARDINALES DEL PLANETA
+# ANCLAS CARDINALES
 # =========================================================
 class AnclasCardinales:
     def __init__(self):
-        self.puntos_cardinales = {
-            "norte": {
-                "estado": "ESTABLE",
-                "funcion": "Ancla polar superior"
-            },
-            "sur": {
-                "estado": "ESTABLE",
-                "funcion": "Ancla polar inferior"
-            },
-            "este": {
-                "estado": "ESTABLE",
-                "funcion": "Ancla de rotación y continuidad"
-            },
-            "oeste": {
-                "estado": "ESTABLE",
-                "funcion": "Ancla de equilibrio y compensación"
-            }
+        self.puntos = {
+            "norte": "ESTABLE",
+            "sur": "ESTABLE",
+            "este": "ESTABLE",
+            "oeste": "ESTABLE"
         }
-        self.integridad_global = 100
 
-    def verificar(self):
-        estados = [v["estado"] == "ESTABLE" for v in self.puntos_cardinales.values()]
-        self.integridad_global = 100 if all(estados) else 75
-        return {
-            "integridad_global": self.integridad_global,
-            "puntos_cardinales": self.puntos_cardinales
-        }
+    def estado(self):
+        return self.puntos
 
 
 # =========================================================
-# PLANETA ESTABLE
+# PLANETA
 # =========================================================
-class PlanetaEstable:
+class Planeta:
     def __init__(self):
-        self.nombre = "Zulia Prime - Sistema Planetario Alfa"
-        self.tipo = "Planeta completo estabilizado"
-        self.fundamento = "Dios"
-
-        # Escala fija tipo Tierra
-        self.radio_km = 6371
-        self.diametro_km = 12742
-        self.gravedad_m_s2 = 9.81
-        self.superficie_total_km2 = 510100000
-
-        self.tamano_fijo = True
-        self.forma = "Esferoide estable"
+        self.nombre = "Zulia Prime"
+        self.radio = 6371
         self.estado_fisico = "ESTABLE"
-        self.colapso = False
-        self.deformacion = False
         self.encogimiento = False
         self.derretimiento = False
-
-        self.rotacion = "Sincronizada y estable"
-        self.orbita = "Estable"
-        self.clima = "Regulado"
-        self.tectonica = "Compensada"
-        self.habitabilidad = "Alta"
-        self.nivel_estabilidad = 100
-
-        self.infraestructura = {
-            "energia": "Singularidad Magnética Estable",
-            "movilidad": "Levitación Cuántica Supervisada",
-            "red_datos": "Enlace Neuronal Ético",
-            "residuos": "Reciclaje Molecular (0% Desecho)",
-            "defensa": "Caja Dimensional Cerrada",
-            "fundamento": "Dios"
-        }
-
+        self.deformacion = False
         self.historial = []
 
-    def recalcular_estabilidad(self, anclas):
-        revision_anclas = anclas.verificar()
-
-        penalizacion = 0
-        penalizacion += 40 if self.colapso else 0
-        penalizacion += 20 if self.deformacion else 0
-        penalizacion += 20 if self.encogimiento else 0
-        penalizacion += 20 if self.derretimiento else 0
-
-        self.nivel_estabilidad = max(0, revision_anclas["integridad_global"] - penalizacion)
-
-        if self.nivel_estabilidad >= 95:
-            self.estado_fisico = "ESTABLE"
-        elif self.nivel_estabilidad >= 75:
-            self.estado_fisico = "VIGILADO"
-        else:
-            self.estado_fisico = "INESTABLE"
-
-    def blindar_tamano(self):
-        self.tamano_fijo = True
-        self.colapso = False
-        self.deformacion = False
+    def estabilizar(self):
         self.encogimiento = False
         self.derretimiento = False
-        self.forma = "Esferoide estable"
-
-    def estabilizar(self, anclas, moral):
-        self.blindar_tamano()
-        self.rotacion = "Sincronizada y estable"
-        self.orbita = "Estable"
-        self.clima = "Regulado"
-        self.tectonica = "Compensada"
-        self.habitabilidad = "Alta"
-        moral.fortalecer_bien(10)
-        self.recalcular_estabilidad(anclas)
+        self.deformacion = False
+        self.estado_fisico = "ESTABLE"
 
         evento = {
-            "fecha": datetime.utcnow().isoformat() + "Z",
-            "accion": "ESTABILIZACION_TOTAL",
-            "resultado": "PLANETA_ESTABLE",
-            "nivel_estabilidad": self.nivel_estabilidad
+            "fecha": datetime.utcnow().isoformat(),
+            "accion": "ESTABILIZACION"
         }
         self.historial.append(evento)
         return evento
 
-    def aplicar_ajuste_seguro(self, nombre_ajuste, anclas, moral):
-        ajustes_validos = {
-            "reforzar_campo_magnetico": "Campo magnético reforzado",
-            "alinear_ejes": "Ejes alineados",
-            "regular_clima": "Clima regulado",
-            "reforzar_anclas_cardinales": "Anclas cardinales reforzadas",
-            "armonizar_infraestructura": "Infraestructura armonizada"
-        }
-
-        descripcion = ajustes_validos.get(nombre_ajuste, "Ajuste general de estabilidad")
-        moral.fortalecer_bien(5)
-        self.blindar_tamano()
-
-        if nombre_ajuste == "reforzar_anclas_cardinales":
-            for punto in anclas.puntos_cardinales:
-                anclas.puntos_cardinales[punto]["estado"] = "ESTABLE"
-
-        self.recalcular_estabilidad(anclas)
-
-        evento = {
-            "fecha": datetime.utcnow().isoformat() + "Z",
-            "accion": nombre_ajuste,
-            "descripcion": descripcion,
-            "resultado": "AJUSTE_APLICADO",
-            "nivel_estabilidad": self.nivel_estabilidad
-        }
-        self.historial.append(evento)
-        return evento
-
-    def estado(self, anclas):
-        self.recalcular_estabilidad(anclas)
+    def estado(self):
         return {
             "nombre": self.nombre,
-            "tipo": self.tipo,
-            "fundamento": self.fundamento,
-            "escala": {
-                "radio_km": self.radio_km,
-                "diametro_km": self.diametro_km,
-                "gravedad_m_s2": self.gravedad_m_s2,
-                "superficie_total_km2": self.superficie_total_km2,
-                "referencia": "Similar al planeta Tierra"
-            },
-            "integridad_fisica": {
-                "tamano_fijo": self.tamano_fijo,
-                "forma": self.forma,
-                "estado_fisico": self.estado_fisico,
-                "colapso": self.colapso,
-                "deformacion": self.deformacion,
-                "encogimiento": self.encogimiento,
-                "derretimiento": self.derretimiento
-            },
-            "equilibrio_planetario": {
-                "rotacion": self.rotacion,
-                "orbita": self.orbita,
-                "clima": self.clima,
-                "tectonica": self.tectonica,
-                "habitabilidad": self.habitabilidad,
-                "nivel_estabilidad": self.nivel_estabilidad
-            },
-            "infraestructura": self.infraestructura,
-            "anclas_cardinales": anclas.verificar()
+            "radio_km": self.radio,
+            "estado_fisico": self.estado_fisico,
+            "encogimiento": self.encogimiento,
+            "derretimiento": self.derretimiento,
+            "deformacion": self.deformacion
         }
 
 
 # =========================================================
-# SISTEMA LEGAL Y HUMANO
+# IA CENTRAL
 # =========================================================
-class SistemaLegalHumano:
-    def __init__(self):
-        self.base = "Conocimiento = Poder"
-        self.igualdad = "Universal"
-        self.principios = [
-            "Protección de la vida humana",
-            "Respeto por la dignidad",
-            "Estabilidad social",
-            "Tecnología al servicio del bien",
-            "Auditoría ética continua"
-        ]
-        self.fundamento = "Dios"
-
-    def resumen(self):
-        return {
-            "base": self.base,
-            "igualdad": self.igualdad,
-            "principios": self.principios,
-            "fundamento": self.fundamento
-        }
-
-
-# =========================================================
-# IA CENTRAL DE ESTABILIDAD
-# =========================================================
-class IACentralEstable:
-    def __init__(self, planeta, moral, leyes_roboticas, anclas, configuracion):
-        self.nombre = "ATLAS-ETHOS"
-        self.estado = "ACTIVA"
-        self.modo = "SUPERVISION_ESTABLE_TOTAL"
+class IA:
+    def __init__(self, planeta, moral, leyes):
         self.planeta = planeta
         self.moral = moral
-        self.leyes_roboticas = leyes_roboticas
-        self.anclas = anclas
-        self.configuracion = configuracion
-        self.decisiones_tomadas = 0
+        self.leyes = leyes
 
-    def estabilizacion_automatica(self):
-        accion = {
-            "riesgo_humano": False,
-            "desorden_critico": False,
-            "autodestruccion": False
-        }
+    def ejecutar_estabilidad(self):
+        accion = {"riesgo_humano": False}
+        if not self.leyes.evaluar(accion):
+            return {"resultado": "bloqueado"}
 
-        aprobada, motivo = self.leyes_roboticas.evaluar_accion(accion)
-        if not aprobada:
-            return {
-                "resultado": "BLOQUEADO",
-                "motivo": motivo
-            }
-
-        self.decisiones_tomadas += 1
-        evento = self.planeta.estabilizar(self.anclas, self.moral)
-
+        evento = self.planeta.estabilizar()
         return {
-            "resultado": "ESTABILIZACION_EJECUTADA",
-            "motivo": motivo,
+            "resultado": "ok",
             "evento": evento,
-            "estado_ia": self.estado_actual()
-        }
-
-    def ajuste_manual(self, ajuste):
-        accion = {
-            "riesgo_humano": False,
-            "desorden_critico": False,
-            "autodestruccion": False
-        }
-
-        aprobada, motivo = self.leyes_roboticas.evaluar_accion(accion)
-        if not aprobada:
-            return {
-                "resultado": "BLOQUEADO",
-                "motivo": motivo
-            }
-
-        self.decisiones_tomadas += 1
-        evento = self.planeta.aplicar_ajuste_seguro(ajuste, self.anclas, self.moral)
-
-        return {
-            "resultado": "AJUSTE_MANUAL_EJECUTADO",
-            "motivo": motivo,
-            "evento": evento,
-            "estado_ia": self.estado_actual()
-        }
-
-    def estado_actual(self):
-        return {
-            "nombre": self.nombre,
-            "estado": self.estado,
-            "modo": self.modo,
-            "decisiones_tomadas": self.decisiones_tomadas,
-            "autoridad_superior": [
-                "Dios",
-                "Jesús, su Hijo",
-                "Espíritu Santo"
-            ]
+            "moral": self.moral.estado()
         }
 
 
 # =========================================================
-# INSTANCIAS GLOBALES
+# INSTANCIAS
 # =========================================================
-configuracion = ConfiguracionEstable()
+config = ConfiguracionEstable()
 jerarquia = JerarquiaSuprema()
-leyes_roboticas = LeyesRoboticas()
-balance_moral = BalanceMoral()
-anclas_cardinales = AnclasCardinales()
-planeta = PlanetaEstable()
-sistema_legal = SistemaLegalHumano()
-ia_central = IACentralEstable(
-    planeta=planeta,
-    moral=balance_moral,
-    leyes_roboticas=leyes_roboticas,
-    anclas=anclas_cardinales,
-    configuracion=configuracion
-)
+leyes = LeyesRoboticas()
+moral = BalanceMoral()
+anclas = AnclasCardinales()
+planeta = Planeta()
+ia = IA(planeta, moral, leyes)
 
 
 # =========================================================
 # ENDPOINTS
 # =========================================================
-@app.route("/", methods=["GET"])
-def inicio():
+@app.route("/")
+def home():
+    return jsonify({"estado": "activo"})
+
+
+@app.route("/escanear")
+def escanear():
     return jsonify({
-        "mensaje": "Sistema planetario estable en ejecución",
-        "version": configuracion.version_sistema,
-        "estado": "OK"
+        "planeta": planeta.estado(),
+        "moral": moral.estado(),
+        "jerarquia": jerarquia.resumen(),
+        "anclas": anclas.estado()
     })
 
 
-@app.route("/escanear_sistema", methods=["GET"])
-def escanear_sistema():
-    return jsonify({
-        "configuracion": configuracion.resumen(),
-        "jerarquia_suprema": jerarquia.resumen(),
-        "leyes_roboticas": leyes_roboticas.resumen(),
-        "sistema_legal": sistema_legal.resumen(),
-        "balance_moral": balance_moral.estado(),
-        "ia_central": ia_central.estado_actual(),
-        "planeta": planeta.estado(anclas_cardinales)
-    })
+@app.route("/estabilizar", methods=["POST"])
+def estabilizar():
+    return jsonify(ia.ejecutar_estabilidad())
 
 
-@app.route("/estabilizar_planeta", methods=["POST"])
-def estabilizar_planeta():
-    resultado = ia_central.estabilizacion_automatica()
-    return jsonify(resultado)
-
-
-@app.route("/ajuste_manual", methods=["POST"])
-def ajuste_manual():
-    data = request.get_json(silent=True) or {}
-    ajuste = data.get("ajuste", "armonizar_infraestructura")
-    resultado = ia_central.ajuste_manual(ajuste)
-    return jsonify(resultado)
-
-
-@app.route("/orden_humana", methods=["POST"])
-def orden_humana():
-    data = request.get_json(silent=True) or {}
-
-    accion = {
-        "riesgo_humano": data.get("riesgo_humano", False),
-        "desorden_critico": data.get("desorden_critico", False),
-        "autodestruccion": data.get("autodestruccion", False)
-    }
-
-    aprobada, motivo = leyes_roboticas.evaluar_accion(accion)
-
-    return jsonify({
-        "orden": data.get("orden", "sin_orden"),
-        "aprobada": aprobada,
-        "motivo": motivo
-    })
-
-
-@app.route("/historial", methods=["GET"])
+@app.route("/historial")
 def historial():
-    return jsonify({
-        "total_eventos": len(planeta.historial),
-        "historial": planeta.historial
-    })
+    return jsonify(planeta.historial)
 
 
-@app.route("/estado_planeta", methods=["GET"])
-def estado_planeta():
-    return jsonify(planeta.estado(anclas_cardinales))
-
-
-@app.route("/estado_ia", methods=["GET"])
-def estado_ia():
-    return jsonify(ia_central.estado_actual())
-
-
-@app.route("/reiniciar_sistema", methods=["POST"])
-def reiniciar_sistema():
-    global configuracion, jerarquia, leyes_roboticas, balance_moral
-    global anclas_cardinales, planeta, sistema_legal, ia_central
-
-    configuracion = ConfiguracionEstable()
-    jerarquia = JerarquiaSuprema()
-    leyes_roboticas = LeyesRoboticas()
-    balance_moral = BalanceMoral()
-    anclas_cardinales = AnclasCardinales()
-    planeta = PlanetaEstable()
-    sistema_legal = SistemaLegalHumano()
-    ia_central = IACentralEstable(
-        planeta=planeta,
-        moral=balance_moral,
-        leyes_roboticas=leyes_roboticas,
-        anclas=anclas_cardinales,
-        configuracion=configuracion
-    )
-
-    return jsonify({
-        "resultado": "SISTEMA_REINICIADO",
-        "estado": "OK",
-        "version": configuracion.version_sistema
-    })
-
-
+# =========================================================
+# RUN
+# =========================================================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
